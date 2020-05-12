@@ -2,6 +2,9 @@ package domain;
 
 import java.util.Objects;
 
+import exceptions.CuitIncorrectoExcepction;
+import exceptions.DniIncorrectoException;
+
 public class Proveedor {
 	private String nombreORazonSocial;
 	private int dni;

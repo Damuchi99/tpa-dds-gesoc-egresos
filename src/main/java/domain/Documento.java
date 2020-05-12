@@ -14,5 +14,4 @@ public class Documento {
 		this.numero = numero;
 	}
 	
-	
 }
