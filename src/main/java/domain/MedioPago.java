@@ -1,16 +1,19 @@
 package domain;
 
-import exceptions.NoEsTarjetaException;
+import java.util.regex.Pattern;
+
+import exceptions.TarjetaInvalidaException;
 
 public class MedioPago {
 	private TipoMedioPago tipo;
-	private int numero;
+	private String numero;
+	private String nroTrajetaValidaRegex = "\\d{16}";
 	
 	public MedioPago(TipoMedioPago tipo) {
 		this.tipo = tipo;
 	}
 	
-	public MedioPago(TipoMedioPago tipo, int numero) {
+	public MedioPago(TipoMedioPago tipo, String numero) {
 		this.validarNumero(tipo, numero);
 	}
 	
@@ -18,20 +21,20 @@ public class MedioPago {
 		return tipo == TipoMedioPago.TARJETA_DE_CREDITO || tipo == TipoMedioPago.TARJETA_DE_DEBITO;
 	}
 	
-	public void validarNumero(TipoMedioPago tipo, int n) {
-		if(this.esTarjeta(tipo)) {
+	public void validarNumero(TipoMedioPago tipo, String numero) {
+		if(this.esTarjeta(tipo) && !Pattern.matches(nroTrajetaValidaRegex, numero)) {
 			this.setTipo(tipo);
-			this.setNumero(n);
+			this.setNumero(numero);
 		}else {
-			throw new NoEsTarjetaException("El metodo de pago ingresado no es tarjeta");
+			throw new TarjetaInvalidaException("El metodo de pago ingresado no es tarjeta o el numero de tarjeta es incorrecto");
 		}
 	}
 
-	public void setNumero(int n) {
-		this.numero = n;
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 	
-	public int getNumero() {
+	public String getNumero() {
 		return this.numero;
 	}
 
